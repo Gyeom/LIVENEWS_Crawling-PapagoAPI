@@ -26,7 +26,10 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
+	@GetMapping("/index")
+	public String index() {
+		return "/index";
+	}
 	@GetMapping("/loginForm")
 	public String loginForm() {
 		return "/user/login";
@@ -39,30 +42,50 @@ public class UserController {
 			return "redirect:/users/loginForm";
 		}
 		if(!password.equals(user.getPassword())) {
+			System.out.println("Login Faliure!");
 			return "redirect:/users/loginForm";
 		}
 		System.out.println("Login Success");
-		session.setAttribute("user", user);
+		session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, user);
 		
-		
+		System.out.println(session.getAttribute("sessionedUser"));
+		return "redirect:/";
+	}
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
 		return "redirect:/";
 	}
 	
+	
+	@GetMapping("/login")
+	public String login() {
+		return "/user/login";
+	}
 	@GetMapping("/form")
 	public String form() {
 		return "/user/form";
 	}
+
 	@GetMapping("/{id}/form")
-	public String updateForm(@PathVariable Long id, Model model) {
+	public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
+		if(!HttpSessionUtils.isLoginUser(session)) {
+			return "redirect:/users/loginForm";
+		}
+		
+		User sessionedUser = HttpSessionUtils.getUserFromSession(session);
+		if(!sessionedUser.matchId(id)) {
+			throw new IllegalStateException("You Can not Access");
+		}
+		
+		
 		User user = userRepository.findById(id).get();
 		model.addAttribute("user", user);
 		return "/user/updateForm";
 	}
 	
-	@GetMapping("/list")
-	public String list() {
-		return "/user/list";
-	}
+
+	
 
 	@PostMapping("")
 	public String create(User user) {
@@ -80,9 +103,18 @@ public class UserController {
 	}
 	
 	@PutMapping("/{id}")
-	public String update(@PathVariable Long id, User newUser) {
+	public String update(@PathVariable Long id, User updatedUser, HttpSession session) {
+		if(!HttpSessionUtils.isLoginUser(session)) {
+			return "redirect:/users/loginForm";
+		}
+		
+		User sessionedUser = HttpSessionUtils.getUserFromSession(session);
+		if(!sessionedUser.matchId(id)) {
+			throw new IllegalStateException("You Can not Access");
+		}
+		
 		User user = userRepository.findById(id).get();
-		user.update(newUser);
+		user.update(updatedUser);
 		userRepository.save(user);
 		return "redirect:/users";
 	}
