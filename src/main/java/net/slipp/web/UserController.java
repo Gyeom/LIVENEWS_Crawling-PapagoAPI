@@ -16,18 +16,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import net.slipp.domain.QuestionRepository;
 import net.slipp.domain.User;
 import net.slipp.domain.UserRepository;
+
+
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
 	private List<User> users = new ArrayList<>();
-	
+	@Autowired
+	private QuestionRepository questionRepository;
 	@Autowired
 	private UserRepository userRepository;
 	@GetMapping("/index")
-	public String index() {
+	public String index(Model model) {
+		model.addAttribute("questions", questionRepository.findAll());
+		
 		return "/index";
 	}
 	@GetMapping("/loginForm")
