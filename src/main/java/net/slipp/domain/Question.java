@@ -41,7 +41,7 @@ public class Question extends AbstractEntity {
 		this.contents = contents;
 	}
 
-	public void update(String title2, String contents) {
+	public void update(String title, String contents) {
 		// TODO Auto-generated method stub
 		this.title = title;
 		this.contents = contents;
