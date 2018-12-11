@@ -13,20 +13,30 @@
 		<link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
-<!-- navigation -->
+	<!-- navigation -->
 <nav class="navbar navbar-fixed-top header">
 		<div class="col-md-12">
 			<div class="navbar-header">
 
-				<a href="/users/index" class="navbar-brand">SLiPP</a>
+				<a href="/users/news/1" class="navbar-brand">LIVE NEWS</a>
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target="#navbar-collapse1">
 					<i class="glyphicon glyphicon-search"></i>
 				</button>
-
 			</div>
+		
+			<div class="navbar-header" style="margin-left:0.3rem;">
+
+				<div style="position : absolute; height:100%;" ><div style="margin-top:10.5%; margin-bottom:auto;"><strong>뉴스로 배우는 영어학습</strong></div></div>
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#navbar-collapse1">
+					<i class="glyphicon glyphicon-search"></i>
+				</button>
+			</div>
+				
+		
 			<div class="collapse navbar-collapse" id="navbar-collapse1">
-				<form class="navbar-form pull-left">
+			<!-- 	<form class="navbar-form pull-left">
 					<div class="input-group" style="max-width: 470px;">
 						<input type="text" class="form-control" placeholder="Search"
 							name="srch-term" id="srch-term">
@@ -36,7 +46,7 @@
 							</button>
 						</div>
 					</div>
-				</form>
+				</form> -->
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
 							class="glyphicon glyphicon-bell"></i></a>
@@ -52,31 +62,12 @@
 	</nav>
 	<div class="navbar navbar-default" id="subnav">
 		<div class="col-md-12">
-			<div class="navbar-header">
-				<a href="#" style="margin-left: 15px;"
-					class="navbar-btn btn btn-default btn-plus dropdown-toggle"
-					data-toggle="dropdown"><i class="glyphicon glyphicon-home"
-					style="color: #dd1111;"></i> Home <small><i
-						class="glyphicon glyphicon-chevron-down"></i></small></a>
-				<ul class="nav dropdown-menu">
-					<li><a href="../user/profile.html"><i
-							class="glyphicon glyphicon-user" style="color: #1111dd;"></i>
-							Profile</a></li>
-					<li class="nav-divider"></li>
-					<li><a href="/users"><i class="glyphicon glyphicon-cog"
-							style="color: #dd1111;"></i> Settings</a></li>
-				</ul>
-
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#navbar-collapse2">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-			</div>
+		
 			<div class="collapse navbar-collapse" id="navbar-collapse2">
 				<ul class="nav navbar-nav navbar-right">
-					<li class="active"><a href="/users/index">Posts</a></li>
+				
+					<li class="active"><a href="/users/news/1"> NEWS | TOP 20 |</a></li>
+					<li><a href="/users/index" role="button">게시판</a></li>
 					{{^sessionedUser}}
 					<li><a href="/users/loginForm" role="button">로그인</a></li>
 					<li><a href="/users/form" role="button">회원가입</a></li>
@@ -162,8 +153,9 @@
                               <div class="form-group" style="padding:14px;">
                                   <textarea class="form-control" placeholder="Update your status" name = "contents"></textarea>
                               </div>
-                              <input type="submit" class="btn btn-success pull-right" value="목록보기" style="margin :0.1rem;"/>
-                              <input type="submit" class="btn btn-success pull-right" value="답변하기" style="margin :0.1rem;"/>
+                            <input type="submit" class="btn btn-success pull-right" value="답변하기"/>
+                              <input type="button" class="btn btn-success pull-right" value="목록보기" onClick="location.href='/users/news/1'"
+ style="margin-right:0.2rem"  />
                               <div class="clearfix" />
                           </form>
                       </div>
