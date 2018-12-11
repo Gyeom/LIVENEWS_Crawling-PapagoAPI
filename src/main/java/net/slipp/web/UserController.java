@@ -123,11 +123,11 @@ public class UserController {
 	
 	
 	
-	@GetMapping("/index")
+	@GetMapping("/board")
 	public String index(Model model) {
 		model.addAttribute("questions", questionRepository.findAll());
 		
-		return "/index";
+		return "/user/board";
 	}
 	@GetMapping("/loginForm")
 	public String loginForm() {

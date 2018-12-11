@@ -67,7 +67,7 @@
 				<ul class="nav navbar-nav navbar-right">
 				
 					<li class="active"><a href="/users/news/1"> NEWS | TOP 20 |</a></li>
-					<li><a href="/users/index" role="button">게시판</a></li>
+					<li><a href="/users/board" role="button">게시판</a></li>
 					{{^sessionedUser}}
 					<li><a href="/users/loginForm" role="button">로그인</a></li>
 					<li><a href="/users/form" role="button">회원가입</a></li>
@@ -105,14 +105,17 @@
                           </a>
                       </div>
                   </div>
-                  <div class="article-doc"  style="padding :0; text-align: center; font-size:2rem; margin-top:1rem;">
+                  <div class="article-doc" id="before"  style="padding :0; text-align: center; font-size:2rem; margin-top:1rem;">
                 {{contents}}  
+                </div>
+                 <div class="article-doc" id="after"  style="display:none; padding :0; text-align: center; font-size:2rem; margin-top:1rem;">
+               
                 </div>
                 
               </article>
           
               <div style="margin-top:1rem; text-align:center;">
-              <div style="display:inline-block; "> <input type="submit" class="btn btn-primary pull-center" value="번역하기"/></div>
+              <div style="display:inline-block; "> <input type="button" id="convert" class="btn btn-primary pull-center" value="번역하기"/></div>
                </div>
         
             
@@ -205,8 +208,8 @@
 <script>
 
 
-$(".answer-write input[type=submit]").click(addAnswer);
 
+$(".answer-write input[type=submit]").click(addAnswer);
 function addAnswer(e){
 
 	e.preventDefault();
@@ -223,6 +226,47 @@ function addAnswer(e){
  		error : onError,
  		success : onSuccess})  ;
  	}
+ 	
+$("#convert").click(addConvert);
+
+ 	function addConvert(e){
+/*  		$("#after").text(
+				"dfdfd");
+		$("#before").css("display","none");
+ 		$("#after").css("display",""); */
+	
+ 		
+	e.preventDefault();
+ 		var text = {
+ 				"data" : $("#before").text()
+ 		};
+ 		
+		$.ajax({
+			type : "POST",
+			url : "/api/papagoNMT",
+			data : text, //json을 보내는 방법
+			success : function(data) { //서블렛을 통한 결과 값을 받을 수 있습니다.
+				console.log(data);
+				//alert(data);
+
+				//string의 값을 object 형식으로 변환합니다.
+				var resulut_obj = JSON.parse(data);
+
+				//결과값을 textarea에 넣기 위해서
+				$("#after").text(
+						resulut_obj.message.result.translatedText);
+			},
+			error : function(e) {
+				console.log(e);
+				alert('실패했습니다.');
+			}
+		});
+ 		
+ 		$("#before").css("display","none");
+ 		$("#after").css("display","");
+ 		
+ 	}
+ 	
  	
  	function onError(){
  		
