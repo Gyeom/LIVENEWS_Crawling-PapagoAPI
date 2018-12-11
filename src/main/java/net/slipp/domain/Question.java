@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Question extends AbstractEntity {
 	
 	@ManyToOne
-	@JoinColumn(foreignKey = @ForeignKey(name= "fk_question_writer"))
+	@JoinColumn(foreignKey = @ForeignKey(name= "fk_answer_writer"))
 	@JsonProperty
 	private User writer;
 	@JsonProperty

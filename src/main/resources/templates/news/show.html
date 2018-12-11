@@ -105,17 +105,21 @@
                           </a>
                       </div>
                   </div>
-                  <div class="article-doc" id="before"  style="padding :0; text-align: center; font-size:2rem; margin-top:1rem;">
-                {{contents}}  
+                  <div class="article-doc" id="before"  style="padding :0; text-align:center; font-size:2rem; margin-top:1rem; margin-left:5rem; margin-right:5rem; font-family : monospace;">
+                <h3>{{contents}} </h3> 
                 </div>
-                 <div class="article-doc" id="after"  style="display:none; padding :0; text-align: center; font-size:2rem; margin-top:1rem;">
-               
+                 <div class="article-doc" id="after"  style="display:none; padding :0; text-align: center; font-size:2rem; margin-top:1rem; margin-left:5rem; margin-right:5rem; font-family : monospace;">
+              <h3 id="afterX">  </h3>
                 </div>
                 
               </article>
           
               <div style="margin-top:1rem; text-align:center;">
-              <div style="display:inline-block; "> <input type="button" id="convert" class="btn btn-primary pull-center" value="번역하기"/></div>
+              <div style="display:inline-block; ">
+               <input type="button" id="convertKor" class="btn btn-primary pull-center" value="한글로 번역하기"/>
+                   <input type="hidden" id="convertEng" class="btn btn-primary pull-center" value="영어로 번역하기" />
+                   </div>
+                 
                </div>
         
             
@@ -124,21 +128,21 @@
                   <div class="qna-comment-slipp">
                       <p class="qna-comment-count"><strong>2</strong>개인 의견</p>
                       <div class="qna-comment-slipp-articles">
-<!-- {{#answers}} -->
+ {{#newsAnswers}}
                           <article class="article" id="answer-1405">
                               <div class="article-header">
                                   <div class="article-header-thumb">
                                       <img src="https://graph.facebook.com/v2.3/1324855987/picture" class="article-author-thumb" alt="">
                                   </div>
                                   <div class="article-header-text">
-                                      <a href="/users/1/자바지기" class="article-author-name"><!-- {{writer.userId}} --></a>
+                                      <a href="/users/1/자바지기" class="article-author-name">{{writer.userId}} </a>
                                       <a href="#answer-1434" class="article-header-time" title="퍼머링크">
-                                <!--          {{formattedCreateDate}} -->
+                                        {{formattedCreateDate}} 
                                       </a>
                                   </div>
                               </div>
                               <div class="article-doc comment-doc">
-                            <!--       <p>{{contents}}</p> -->
+                              <p>{{contents}}</p> 
                               </div>
                               <div class="article-util">
                                   <ul class="article-util-list">
@@ -146,18 +150,18 @@
                                           <a class="link-modify-article" href="/questions/413/answers/1405/form">수정</a>
                                       </li>
                                       <li>
-                                         <a class="link-delete-article" href="/api/questions/{{question.id}}/answers/{{id}}">삭제</a>
+                                         <a class="link-delete-article" href="/api/news/{{news.id}}/newsAnswers/{{id}}">삭제</a>
                                       </li>
                                   </ul>
                               </div>
                           </article>
-             <!--            {{/answers}} -->
-                          <form class="answer-write" method="post" action="/api/questions/{{id}}/answers">
+                    {{/newsAnswers}}
+                          <form class="answer-write" method="post" action="/api/news/{{id}}/newsAnswers">
                               <div class="form-group" style="padding:14px;">
                                   <textarea class="form-control" placeholder="Update your status" name = "contents"></textarea>
                               </div>
                             <input type="submit" class="btn btn-success pull-right" value="답변하기"/>
-                              <input type="button" class="btn btn-success pull-right" value="목록보기" onClick="location.href='/users/news/1'"
+                              <input type="button" class="btn btn-success pull-right" value="목록보기" onClick="location.href='/users/news/{{pageNum}}'"
  style="margin-right:0.2rem"  />
                               <div class="clearfix" />
                           </form>
@@ -189,7 +193,7 @@
 				<a class="link-modify-article" href="/api/qna/updateAnswer/{3}">수정</a>
 			</li>
 			<li>
-				<a class="link-delete-article" href="/api/questions/{3}/answers/{4}">삭제</a>
+				<a class="link-delete-article" href="/api/news/{3}/newsAnswers/{4}">삭제</a>
 			</li>
 		</ul>
 		</div>
@@ -227,9 +231,9 @@ function addAnswer(e){
  		success : onSuccess})  ;
  	}
  	
-$("#convert").click(addConvert);
+$("#convertKor").click(addKorConvert);
 
- 	function addConvert(e){
+ 	function addKorConvert(e){
 /*  		$("#after").text(
 				"dfdfd");
 		$("#before").css("display","none");
@@ -237,7 +241,7 @@ $("#convert").click(addConvert);
 	
  		
 	e.preventDefault();
- 		var text = {
+ var text = {
  				"data" : $("#before").text()
  		};
  		
@@ -251,30 +255,43 @@ $("#convert").click(addConvert);
 
 				//string의 값을 object 형식으로 변환합니다.
 				var resulut_obj = JSON.parse(data);
+				
+			
 
 				//결과값을 textarea에 넣기 위해서
-				$("#after").text(
+				$("#afterX").text(
 						resulut_obj.message.result.translatedText);
 			},
 			error : function(e) {
 				console.log(e);
-				alert('실패했습니다.');
+			
 			}
-		});
- 		
+		}); 
+	
+
+ 	
+		$("#convertEng").attr("type","button");
+		$("#convertKor").attr("type","hidden");
  		$("#before").css("display","none");
  		$("#after").css("display","");
  		
  	}
- 	
+ 	$("#convertEng").click(addEngConvert);
+ 	function addEngConvert(e){
+ 		$("#convertKor").attr("type","button");
+		$("#convertEng").attr("type","hidden");
+		$("#before").css("display","");
+ 		$("#after").css("display","none");
+ 	}
  	
  	function onError(){
- 		
+ 		console.log("실패");
+ 		alert("로그인이 필요합니다");
  	}
  	function onSuccess(data, status){
-
+ 		
  		var answerTemplate = $("#answerTemplate").html();
- 		var template = answerTemplate.format(data.writer.userId, data.formattedCreateDate, data.contents,data.question.id, data.id);
+ 		var template = answerTemplate.format(data.writer.userId, data.formattedCreateDate, data.contents,data.news.id, data.id);
  		$(".qna-comment-slipp-articles").prepend(template);
  		
  		$("textarea[name=contents]").val("");

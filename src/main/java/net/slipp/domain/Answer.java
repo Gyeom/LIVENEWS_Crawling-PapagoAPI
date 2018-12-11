@@ -13,7 +13,7 @@ import javax.persistence.ForeignKey;
 public class Answer extends AbstractEntity {
 	
 @ManyToOne
-@JoinColumn (foreignKey = @ForeignKey(name = "fk_question_writer"))
+@JoinColumn (foreignKey = @ForeignKey(name = "fk_answer_writer"))
 @JsonProperty
 private User writer;
 

@@ -1,11 +1,14 @@
 package net.slipp.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -33,6 +36,21 @@ public class News  {
 	private String headline;
 	@JsonProperty
 	private int pageNum; 
+	
+	
+	
+	
+	//추가
+	@JsonProperty
+	private Integer countOfAnswer = 0;
+	
+	
+	@OneToMany(mappedBy="news")
+	@OrderBy("id DESC")
+	private List<NewsAnswer> newsAnswers; 
+	//
+	
+	
 	public News() {
 		
 	}
@@ -76,6 +94,14 @@ public class News  {
 	}
 	public void setHeadLine(String headline) {
 		this.headline = headline;
+	}
+	public void addAnswer() {
+		// TODO Auto-generated method stub
+		this.countOfAnswer +=1;
+		
+	}
+	public void deleteAnswer() {
+		this.countOfAnswer -=1;
 	}
 
 }
