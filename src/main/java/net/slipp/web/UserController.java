@@ -40,7 +40,7 @@ public class UserController {
 		System.out.println(session.getAttribute("page"+pageNum));
 		if(session.getAttribute("page"+pageNum)==null) {
 		try {
-			Document doc = Jsoup.connect("https://www.ccn.com/?s=IT TREND").get();
+			Document doc = Jsoup.connect("https://www.ccn.com/?s=IT INDUSTRY").get();
 			Elements news = doc.select("div.row").select("div.post-thumbnail > a");
 			String contents = "";
 			for(int i=((pageNum-1)*4); i<(pageNum*4); i++){

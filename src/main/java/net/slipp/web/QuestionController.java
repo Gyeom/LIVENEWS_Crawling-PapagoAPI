@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import net.slipp.domain.Answer;
+import net.slipp.domain.AnswerRepository;
 import net.slipp.domain.Question;
 import net.slipp.domain.QuestionRepository;
 import net.slipp.domain.Result;
@@ -25,6 +27,8 @@ public class QuestionController {
 	
 	@Autowired
 	private QuestionRepository questionRepository;
+	
+
 	
 	
 	@GetMapping("/form")
@@ -45,7 +49,7 @@ public class QuestionController {
 		System.out.println(sessionUser);
 		Question newQuestion = new Question(sessionUser, title, contents);
 		questionRepository.save(newQuestion);
-		return "redirect:/";
+		return "redirect:/users/board";
 	}
 	
 	@GetMapping("/{id}")
@@ -71,6 +75,7 @@ public class QuestionController {
 	}		
 	
 	
+	
 	private Result valid(HttpSession session, Question question) {
 		if(!HttpSessionUtils.isLoginUser(session)) {
 			return Result.fail("로그인이 필요합니다.");
@@ -84,8 +89,8 @@ public class QuestionController {
 		
 		return Result.ok();
 	}
-		
-
+	
+	
 	
 	
 	@PutMapping("/{id}")
@@ -101,6 +106,8 @@ public class QuestionController {
 			return String.format("redirect:/questions/%d", id);
 		
 	}
+	
+	
 	
 	@DeleteMapping("/{id}")
 	public String delete(@PathVariable Long id,Model model, HttpSession session) {

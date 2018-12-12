@@ -41,6 +41,10 @@ public boolean isSameWriter(User loginUser) {
 	// TODO Auto-generated method stub
 	return loginUser.equals(this.writer);
 }
+public void update(String contents) {
+	// TODO Auto-generated method stub
+	this.contents = contents;
+}
 
 @Override
 public String toString() {

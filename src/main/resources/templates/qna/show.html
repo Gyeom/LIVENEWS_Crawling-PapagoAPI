@@ -85,25 +85,19 @@
     <div class="col-md-12 col-sm-12 col-lg-12">
     
     {{#question}}
-        <div class="panel panel-default">
+        <div class="panel panel-default" >
           <header class="qna-header">
               <h2 class="qna-title">{{title}}</h2>
           </header>
           <div class="content-main">
-              <article class="article">
-                  <div class="article-header">
-                      <div class="article-header-text">
-                          <a href="/users/92/kimmunsu" class="article-author-name">{{writer.userId}}</a>
-                          <a href="/questions/413" class="article-header-time" title="퍼머링크">
-                             {{formattedCreateDate}}
-                              <i class="icon-link"></i>
-                          </a>
-                      </div>
-                  </div>
+              <article class="article" >
+                   <div style = "text-align:right;" >
+                           <h5><strong>작성자</strong> : {{writer.userId}} <strong>게시일</strong> {{formattedCreateDate}} </h5>
+                 </div>
                   <br>
-                  <div class="article-doc" style = "padding :0;">
+                  <div class="article-doc" style = "padding :0; font-size:1.5rem;">
                      {{contents}}  </div>
-                  <div class="article-util">
+                  <div class="article-util" style ="text-align:right; font-size : 2rem; padding: 0;" >
                       <ul class="article-util-list">
                           <li>
                               <a class="link-modify-article" href="/questions/{{id}}/form">수정</a>
@@ -120,11 +114,13 @@
 
               <div class="qna-comment">
                   <div class="qna-comment-slipp">
+                  <p class="qna-comment-count"><strong id="answerCount">{{countOfAnswer}}</strong>개의 댓글</p>
                       <div class="qna-comment-slipp-articles">
 {{#answers}}
                           <article class="article" id="answer-1405">
                               <div class="article-header">
                                   <div class="article-header-text">
+                                  
                                       <a href="/users/1/자바지기" class="article-author-name">{{writer.userId}}</a>
                                       <a href="#answer-1434" class="article-header-time" title="퍼머링크">
                                          {{formattedCreateDate}}
@@ -135,13 +131,13 @@
                               <div class="article-doc comment-doc" style = "padding :0;">
                                   <p>{{contents}}</p>
                               </div>
-                              <div class="article-util">
-                                  <ul class="article-util-list">
-                                      <li>
-                                          <a class="link-modify-article" href="/questions/413/answers/1405/form">수정</a>
+                              <div class="article-util" style = "padding :0;">
+                                  <ul class="article-util-list"  >
+                                  			  <li>
+                                          <a class="link-modify-answer" href="/questions/{{question.id}}/answers/{{id}}/answerForm">수정</a>
                                       </li>
                                       <li>
-                                         <a class="link-delete-article" href="/api/questions/{{question.id}}/answers/{{id}}">삭제</a>
+                                         <a class="link-delete-answer" href="/api/questions/{{question.id}}/answers/{{id}}">삭제</a>
                                       </li>
                                   </ul>
                               </div>
@@ -177,14 +173,14 @@
 		<div class="article-doc comment-doc" style="padding:0;">
 			{2}
 		</div>
-		<div class="article-util">
+		<div class="article-util" style ="padding: 0;">
 		<ul class="article-util-list">
-			<li>
-				<a class="link-modify-article" href="/api/qna/updateAnswer/{3}">수정</a>
-			</li>
-			<li>
-				<a class="link-delete-article" href="/api/questions/{3}/answers/{4}">삭제</a>
-			</li>
+			  <li>
+                                          <a class="link-modify-article" href="/questions/{3}/answers/{4}/answerForm">수정</a>
+                                      </li>
+                                      <li>
+                                         <a class="link-delete-article" href="/api/questions/{3}/answers/{4}">삭제</a>
+                                      </li>
 		</ul>
 		</div>
 	</article>
@@ -234,7 +230,7 @@ function addAnswer(e){
  	}
  	
  	
- 	$(document).on('click', '.link-delete-article', deleteAnswer);﻿
+	$(document).on('click', '.link-delete-answer', deleteAnswer);﻿
  	function deleteAnswer(e){
  		e.preventDefault();
  		
@@ -259,7 +255,7 @@ function addAnswer(e){
 				} 			
  		}
  	});
- }
+ } 
 
  	
  	String.prototype.format = function() {
