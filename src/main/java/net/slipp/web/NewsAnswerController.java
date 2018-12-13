@@ -5,8 +5,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import net.slipp.domain.Answer;
@@ -17,6 +20,7 @@ import net.slipp.domain.NewsAnswerRepository;
 import net.slipp.domain.NewsRepository;
 import net.slipp.domain.Question;
 import net.slipp.domain.QuestionRepository;
+import net.slipp.domain.Result;
 import net.slipp.domain.User;
 
 @Controller
@@ -41,5 +45,58 @@ public class NewsAnswerController {
 		return String.format("redirect:/news/%d", newsId);
 	}
 	
+	
+	
+	
+	//answer
+		@GetMapping("{id}/answerForm")
+		public String updateAnswerForm(@PathVariable Long newsId, @PathVariable Long id, Model model, HttpSession session) {
+			
+			
+			NewsAnswer newsAnswer = newsAnswerRepository.findById(id).get();
+			Result result = valid(session, newsAnswer);
+			if(!result.isValid()) {
+				model.addAttribute("errorMessage", result.getErrorMessage());
+				return "/user/login";
+			}
+		
+			model.addAttribute("newsAnswer", newsAnswer);
+			model.addAttribute("newsId", newsId);
+			
+				return "/news/answerUpdateForm";
+
+		}	
+		
+		
+		//answer
+		private Result valid(HttpSession session, NewsAnswer newsAnswer) {
+			if(!HttpSessionUtils.isLoginUser(session)) {
+				return Result.fail("로그인이 필요합니다.");
+			}
+			
+			User loginUser = HttpSessionUtils.getUserFromSession(session);
+			if(!newsAnswer.isSameWriter(loginUser)) {
+				return Result.fail("자신이 쓴 글만 수정, 삭제가 가능합니다.");
+						}
+			
+			
+			return Result.ok();
+		}
+		
+		
+		//answer
+		@PutMapping("{id}")
+		public String update(@PathVariable Long newsId, @PathVariable Long id, String contents, Model model, HttpSession session) {
+			NewsAnswer newsAnswer = newsAnswerRepository.findById(id).get();
+			Result result = valid(session, newsAnswer);
+			if(!result.isValid()) {
+				model.addAttribute("errorMessage", result.getErrorMessage());
+				return "/user/login";
+			}
+			newsAnswer.update(contents);
+			newsAnswerRepository.save(newsAnswer); 
+			return String.format("redirect:/mainNews/%d", newsId);
+		
+		}
 }
 

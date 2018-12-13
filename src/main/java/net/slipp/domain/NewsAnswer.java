@@ -34,6 +34,11 @@ public class NewsAnswer extends AbstractEntity {
 		this.news = news;
 		this.contents = contents;
 	}
+	
+	public void update(String contents) {
+		// TODO Auto-generated method stub
+		this.contents = contents;
+	}
 
 
 	public boolean isSameWriter(User loginUser) {

@@ -145,10 +145,10 @@
                               <div class="article-util" style ="text-align:right; font-size : 2rem; padding: 0;">
                                   <ul class="article-util-list">
                                       <li>
-                                          <a class="link-modify-article" href="/api/news/{{news.id}}/newsAnswers/{{id}}">수정</a>
+                                          <a class="link-modify-answer" href="/news/{{newsContents.id}}/newsAnswers/{{id}}/answerForm">수정</a>
                                       </li>
                                       <li>
-                                         <a class="link-delete-article" href="/api/news/{{news.id}}/newsAnswers/{{id}}">삭제</a>
+                                         <a class="link-delete-answer" href="/api/news/{{newsContents.id}}/newsAnswers/{{id}}">삭제</a>
                                       </li>
                                   </ul>
                               </div>
@@ -185,12 +185,12 @@
 		</div>
 		<div class="article-util" style="text-align:right; font-size : 2rem; padding: 0;">
 		<ul class="article-util-list" >
-			<li>
-				<a class="link-modify-article" href="/api/qna/updateAnswer/{3}">수정</a>
-			</li>
-			<li>
-				<a class="link-delete-article" href="/api/news/{3}/newsAnswers/{4}">삭제</a>
-			</li>
+                    <li>
+                                          <a class="link-modify-answer" href="/news/{3}/newsAnswers/{4}/answerForm">수정</a>
+                                      </li>
+                                      <li>
+                                         <a class="link-delete-answer" href="/api/news/{{3}}/newsAnswers/{{4}}">삭제</a>
+                                      </li>
 		</ul>
 		</div>
 	</article>
@@ -293,7 +293,7 @@ $("#convertKor").click(addKorConvert);
  	}
  	
  	
- 	$(document).on('click', '.link-delete-article', deleteAnswer);﻿
+ 	$(document).on('click', '.link-delete-answer', deleteAnswer);﻿
  	function deleteAnswer(e){
  		e.preventDefault();
  		
