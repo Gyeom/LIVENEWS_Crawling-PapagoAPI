@@ -49,7 +49,6 @@ public class ApiAnswerController {
 	User loginUser = HttpSessionUtils.getUserFromSession(session);
 	if(!answer.isSameWriter(loginUser)) {
 		return Result.fail("자신의 글만 삭제할 수 있습니다.");
-		
 	}
 	Question question = questionRepository.findById(questionId).get(); 
 	question.deleteAnswer();

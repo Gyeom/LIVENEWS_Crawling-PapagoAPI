@@ -1,6 +1,8 @@
 package net.slipp.domain;
 
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
@@ -17,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Question extends AbstractEntity {
 	
 	@ManyToOne
-	@JoinColumn(foreignKey = @ForeignKey(name= "fk_answer_writer"))
+	@JoinColumn(foreignKey = @ForeignKey(name= "fk_question_writer"))
 	@JsonProperty
 	private User writer;
 	@JsonProperty
@@ -30,7 +32,7 @@ public class Question extends AbstractEntity {
 	private Integer countOfAnswer = 0;
 	
 	
-	@OneToMany(mappedBy="question")
+	@OneToMany(mappedBy="question",  cascade = CascadeType.ALL)
 	@OrderBy("id DESC")
 	private List<Answer> answers; 
 	
